@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register - AgriTrack</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="auth-container">
+    <h2>Register</h2>
+    <form method="POST">
+      <label>Username:</label>
+      <input type="text" name="username" required>
+      
+      <label>Password:</label>
+      <input type="password" name="password" required>
+      
+      <label>Plan:</label>
+      <select name="plan" required>
+        <option value="weekly">Weekly - 2400 RWF</option>
+        <option value="biweekly">Biweekly - 2000 RWF</option>
+      </select>
+      
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="/login">Login</a></p>
+  </div>
+</body>
+</html>
