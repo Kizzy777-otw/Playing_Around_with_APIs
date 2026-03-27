@@ -196,3 +196,81 @@ nav .nav-links a {
   color: #fff;
   font-weight: 700;
 }
+
+/* DETAIL VIEW */
+.detail-section {
+  margin: 2rem;
+  max-width: 600px;
+}
+
+.detail-card {
+  background-color: white;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.detail-card h3 {
+  color: #4a7c2b;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #78c043;
+  padding-bottom: 0.5rem;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-row label {
+  font-weight: bold;
+  color: #666;
+}
+
+.detail-row span {
+  color: #333;
+}
+
+.detail-row.days-row {
+  padding: 1rem;
+  border-radius: 4px;
+  grid-template-columns: 150px 1fr;
+}
+
+.detail-row.days-row span {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.back-link {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #78c043;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.view-btn {
+  color: white;
+  background-color: #78c043;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.view-btn:hover {
+  background-color: #639b33;
+}
