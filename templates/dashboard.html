@@ -15,6 +15,44 @@
   </nav>
 
   <main>
+    {% if manager %}
+    <section class="manager-section">
+      <h2>Manager Dashboard (all users)</h2>
+      {% if next_due_user %}
+      <div class="card" style="margin-bottom: 1rem; padding: 0.8rem; border: 1px solid #ddd; background: #fff;">
+        <strong>Next due customer:</strong> {{ next_due_user['username'] }}
+        ({{ next_due_user['days_remaining'] }} days, due {{ next_due_user['next_payment_date'] }})
+      </div>
+      {% endif %}
+      <table>
+        <thead>
+          <tr>
+            <th>User</th>
+            <th>Plan</th>
+            <th>Total Milk</th>
+            <th>Earnings</th>
+            <th>Next Payment</th>
+            <th>Days Remaining</th>
+            <th>Records</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for u in users %}
+          <tr>
+            <td>{{ u['username'] }}</td>
+            <td>{{ u['plan'] if u['plan'] else '-' }}</td>
+            <td>{{ u['total_litres'] }}</td>
+            <td>{{ u['earnings'] }}</td>
+            <td>{{ u['next_payment_date'] if u['next_payment_date'] else 'N/A' }}</td>
+            <td class="table-days-left {% if u['days_remaining'] is not none %}{% if u['days_remaining'] > 1 %}status-green{% elif u['days_remaining'] == 0 %}status-yellow{% else %}status-red{% endif %}{% else %}status-none{% endif %}">{{ u['days_remaining'] if u['days_remaining'] is not none else 'N/A' }}</td>
+            <td>{{ u['milk_records']|length }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    {% else %}
+
     <!-- Cards -->
     <div class="card-container">
       <div class="card">
@@ -27,8 +65,12 @@
         <small id="usd-value"></small>
       </div>
       <div class="card">
-        <h3>Days Until Next Payment</h3>
-        <p>{{ days_remaining if days_remaining else "N/A" }}</p>
+        <h3>Next Payment Date</h3>
+        <p>{{ next_payment_date if next_payment_date else "N/A" }}</p>
+      </div>
+      <div class="card days-left-card {% if days_remaining is not none %}{% if days_remaining > 1 %}status-green{% elif days_remaining == 0 %}status-yellow{% else %}status-red{% endif %}{% else %}status-none{% endif %}">
+        <h3>Days Left</h3>
+        <p>{{ days_remaining if days_remaining is not none else "N/A" }}</p>
       </div>
       <div class="card">
         <h3>Plan</h3>
@@ -57,6 +99,7 @@
             <th>Date</th>
             <th>Litres</th>
             <th>Earnings (RWF)</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -65,11 +108,14 @@
             <td>{{ record['date'] }}</td>
             <td>{{ record['litres'] }}</td>
             <td>{{ record['litres'] * 600 }}</td>
+            <td class="record-status record-{{ record['status'] }}">{{ record['status'] }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
+
+    {% endif %}
   </main>
 </body>
 </html>

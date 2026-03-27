@@ -1,3 +1,26 @@
 {
-  "users": []
+    "users": [
+        {
+            "username": "Kizito Ceo",
+            "password": "123",
+            "plan": "weekly",
+            "milk_records": [
+                {
+                    "litres": 12.0,
+                    "date": "2026-03-18"
+                },
+                {
+                    "litres": 12.0,
+                    "date": "2026-03-30"
+                }
+            ]
+        },
+        {
+            "username": "Manager",
+            "password": "12345",
+            "plan": "weekly",
+            "role": "manager",
+            "milk_records": []
+        }
+    ]
 }
