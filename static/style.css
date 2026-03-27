@@ -203,6 +203,26 @@ nav .nav-links a {
   max-width: 600px;
 }
 
+/* FARMER HEADER */
+.farmer-header {
+  margin: 2rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #78c043 0%, #639b33 100%);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.farmer-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.detail-section {
+  margin: 2rem;
+  max-width: 600px;
+}
+
 .detail-card {
   background-color: white;
   padding: 1.5rem;
@@ -265,12 +285,25 @@ nav .nav-links a {
 .view-btn {
   color: white;
   background-color: #78c043;
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
   text-decoration: none;
   font-size: 0.9rem;
+  font-weight: bold;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .view-btn:hover {
   background-color: #639b33;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.view-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
