@@ -248,13 +248,27 @@ def add_record():
 # ----------------------
 
 @app.route("/record/<int:record_index>")
-def view_record(record_index):
+@app.route("/record/<username>/<int:record_index>")
+def view_record(record_index, username=None):
     if "user" not in session:
         return redirect("/login")
 
-    user = find_user(session["user"])
-    if not user:
-        return redirect("/logout")
+    role = session.get("role", "farmer")
+    current_user = session["user"]
+    
+    # If viewing someone else's record (different from current user), must be manager
+    if username and username != current_user and role != "manager":
+        return "Access denied", 403
+
+    # Determine which user's records to view
+    if username:
+        user = find_user(username)
+        if not user:
+            return "User not found", 404
+    else:
+        user = find_user(current_user)
+        if not user:
+            return redirect("/logout")
 
     milk_records = user.get("milk_records", [])
     if record_index < 0 or record_index >= len(milk_records):

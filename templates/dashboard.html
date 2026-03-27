@@ -117,7 +117,7 @@
             <td>{{ record['litres'] }}</td>
             <td>{{ record['litres'] * 600 }}</td>
             <td class="record-status record-{{ record['status'] }}">{{ record['status'] }}</td>
-            <td><a href="/record/{{ loop.index0 }}" class="view-btn">View Details</a></td>
+            <td><a href="/record/{{ user['username'] }}/{{ loop.index0 }}" class="view-btn">View Details</a></td>
           </tr>
           {% endfor %}
         </tbody>
