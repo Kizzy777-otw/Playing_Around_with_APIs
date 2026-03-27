@@ -155,13 +155,27 @@ def logout():
 # ----------------------
 
 @app.route("/dashboard")
-def dashboard():
+@app.route("/dashboard/<username>")
+def dashboard(username=None):
     if "user" not in session:
         return redirect("/login")
 
     role = session.get("role", "farmer")
 
-    if role == "manager":
+    if username and role != "manager":
+        return "Access denied", 403
+
+    target_user = None
+    if username:
+        target_user = find_user(username)
+        if not target_user:
+            return "User not found", 404
+    else:
+        target_user = find_user(session["user"])
+        if not target_user:
+            return redirect("/logout")
+
+    if role == "manager" and not username:
         users = load_data()["users"]
         for u in users:
             u["total_litres"] = sum([r["litres"] for r in u.get("milk_records", [])])
@@ -177,27 +191,24 @@ def dashboard():
 
         return render_template("dashboard.html", manager=True, users=users, next_due_user=next_due_user)
 
-    user = find_user(session["user"])
-    if not user:
-        return redirect("/logout")
+    # Farmer view or manager viewing specific user
+    total_litres = sum([r["litres"] for r in target_user.get("milk_records", [])])
+    earnings = calculate_earnings(target_user)
 
-    total_litres = sum([r["litres"] for r in user.get("milk_records", [])])
-    earnings = calculate_earnings(user)
-
-    next_pay = next_payment_date(user)
+    next_pay = next_payment_date(target_user)
     next_payment_date_str = next_pay.strftime("%Y-%m-%d") if next_pay else None
 
     days_remaining = None
     if next_pay:
         days_remaining = (next_pay - datetime.now()).days
 
-    for r in user.get("milk_records", []):
+    for r in target_user.get("milk_records", []):
         r["status"] = payment_status_for_record(r)
 
     return render_template(
         "dashboard.html",
         manager=False,
-        user=user,
+        user=target_user,
         total_litres=total_litres,
         earnings=earnings,
         days_remaining=days_remaining,
@@ -231,6 +242,43 @@ def add_record():
 
     save_data(data)
     return redirect("/dashboard")
+
+# ----------------------
+# RECORD DETAIL
+# ----------------------
+
+@app.route("/record/<int:record_index>")
+def view_record(record_index):
+    if "user" not in session:
+        return redirect("/login")
+
+    user = find_user(session["user"])
+    if not user:
+        return redirect("/logout")
+
+    milk_records = user.get("milk_records", [])
+    if record_index < 0 or record_index >= len(milk_records):
+        return "Record not found", 404
+
+    record = milk_records[record_index]
+    record["status"] = payment_status_for_record(record)
+
+    earnings_for_record = record["litres"] * 600
+
+    next_pay = next_payment_date(user)
+    next_payment_date_str = next_pay.strftime("%Y-%m-%d") if next_pay else None
+    days_remaining = None
+    if next_pay:
+        days_remaining = (next_pay - datetime.now()).days
+
+    return render_template(
+        "record_detail.html",
+        record=record,
+        user=user,
+        earnings_for_record=earnings_for_record,
+        next_payment_date=next_payment_date_str,
+        days_remaining=days_remaining
+    )
 
 # ----------------------
 # API: Currency Conversion
