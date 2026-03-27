@@ -25,6 +25,18 @@
             "plan": "weekly",
             "role": "manager",
             "milk_records": []
+        },
+        {
+            "username": "Imena Farm",
+            "password": "1234",
+            "plan": "weekly",
+            "role": "farmer",
+            "milk_records": [
+                {
+                    "litres": 50.0,
+                    "date": "2026-03-28"
+                }
+            ]
         }
     ]
 }
