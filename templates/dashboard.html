@@ -34,6 +34,7 @@
             <th>Next Payment</th>
             <th>Days Remaining</th>
             <th>Records</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -46,6 +47,7 @@
             <td>{{ u['next_payment_date'] if u['next_payment_date'] else 'N/A' }}</td>
             <td class="table-days-left {% if u['days_remaining'] is not none %}{% if u['days_remaining'] > 1 %}status-green{% elif u['days_remaining'] == 0 %}status-yellow{% else %}status-red{% endif %}{% else %}status-none{% endif %}">{{ u['days_remaining'] if u['days_remaining'] is not none else 'N/A' }}</td>
             <td>{{ u['milk_records']|length }}</td>
+            <td><a href="/dashboard/{{ u['username'] }}" class="view-btn">View Details</a></td>
           </tr>
           {% endfor %}
         </tbody>
@@ -100,6 +102,7 @@
             <th>Litres</th>
             <th>Earnings (RWF)</th>
             <th>Status</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -109,6 +112,7 @@
             <td>{{ record['litres'] }}</td>
             <td>{{ record['litres'] * 600 }}</td>
             <td class="record-status record-{{ record['status'] }}">{{ record['status'] }}</td>
+            <td><a href="/record/{{ loop.index0 }}" class="view-btn">View Details</a></td>
           </tr>
           {% endfor %}
         </tbody>
