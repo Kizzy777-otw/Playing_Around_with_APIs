@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Record Details - AgriTrack</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <nav>
+    <h1>AgriTrack</h1>
+    <div class="nav-links">
+      <a href="/dashboard">Back to Dashboard</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="detail-section">
+      <h2>Milk Record Details</h2>
+      
+      <div class="detail-card">
+        <h3>Record Information</h3>
+        <div class="detail-row">
+          <label>Date:</label>
+          <span>{{ record['date'] }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Litres:</label>
+          <span>{{ record['litres'] }} L</span>
+        </div>
+        <div class="detail-row">
+          <label>Earnings (RWF):</label>
+          <span>{{ earnings_for_record }} RWF</span>
+        </div>
+        <div class="detail-row">
+          <label>Status:</label>
+          <span class="record-status record-{{ record['status'] }}">{{ record['status'] }}</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <h3>Payment Information</h3>
+        <div class="detail-row">
+          <label>Payment Plan:</label>
+          <span>{{ user['plan'].capitalize() }}</span>
+        </div>
+        <div class="detail-row">
+          <label>Next Payment Date:</label>
+          <span>{{ next_payment_date if next_payment_date else 'N/A' }}</span>
+        </div>
+        <div class="detail-row days-row {% if days_remaining is not none %}{% if days_remaining > 1 %}status-green{% elif days_remaining == 0 %}status-yellow{% else %}status-red{% endif %}{% else %}status-none{% endif %}">
+          <label>Days Left for Payment:</label>
+          <span>{{ days_remaining if days_remaining is not none else 'N/A' }} days</span>
+        </div>
+      </div>
+
+      <a href="/dashboard" class="back-link">← Back to Dashboard</a>
+    </section>
+  </main>
+</body>
+</html>
