@@ -37,6 +37,118 @@
                     "date": "2026-03-28"
                 }
             ]
+        },
+        {
+            "username": "Jean Mwiseneza",
+            "password": "pass123",
+            "plan": "weekly",
+            "role": "farmer",
+            "milk_records": [
+                {
+                    "litres": 25.5,
+                    "date": "2026-03-15"
+                },
+                {
+                    "litres": 28.0,
+                    "date": "2026-03-22"
+                },
+                {
+                    "litres": 30.5,
+                    "date": "2026-03-27"
+                }
+            ]
+        },
+        {
+            "username": "Marie Ingabire",
+            "password": "pass123",
+            "plan": "biweekly",
+            "role": "farmer",
+            "milk_records": [
+                {
+                    "litres": 35.0,
+                    "date": "2026-03-10"
+                },
+                {
+                    "litres": 38.5,
+                    "date": "2026-03-20"
+                }
+            ]
+        },
+        {
+            "username": "Pierre Nkomo",
+            "password": "pass123",
+            "plan": "weekly",
+            "role": "farmer",
+            "milk_records": [
+                {
+                    "litres": 22.0,
+                    "date": "2026-03-12"
+                },
+                {
+                    "litres": 24.5,
+                    "date": "2026-03-19"
+                },
+                {
+                    "litres": 26.0,
+                    "date": "2026-03-26"
+                }
+            ]
+        },
+        {
+            "username": "Chantal Kwizera",
+            "password": "pass123",
+            "plan": "biweekly",
+            "role": "farmer",
+            "milk_records": [
+                {
+                    "litres": 45.0,
+                    "date": "2026-03-05"
+                },
+                {
+                    "litres": 48.5,
+                    "date": "2026-03-25"
+                }
+            ]
+        },
+        {
+            "username": "Ahmed Hassan",
+            "password": "pass123",
+            "plan": "weekly",
+            "role": "farmer",
+            "milk_records": [
+                {
+                    "litres": 18.0,
+                    "date": "2026-03-14"
+                },
+                {
+                    "litres": 20.5,
+                    "date": "2026-03-21"
+                },
+                {
+                    "litres": 19.0,
+                    "date": "2026-03-27"
+                }
+            ]
+        },
+        {
+            "username": "Grace Mwangi",
+            "password": "pass123",
+            "plan": "weekly",
+            "role": "farmer",
+            "milk_records": [
+                {
+                    "litres": 32.0,
+                    "date": "2026-03-11"
+                },
+                {
+                    "litres": 35.5,
+                    "date": "2026-03-18"
+                },
+                {
+                    "litres": 38.0,
+                    "date": "2026-03-25"
+                }
+            ]
         }
     ]
 }
