@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - AgriTrack</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+<body>
+  <nav>
+    <h1>AgriTrack</h1>
+    <div class="nav-links">
+      <a href="/logout">Logout</a>
+    </div>
+  </nav>
+
+  <main>
+    <!-- Cards -->
+    <div class="card-container">
+      <div class="card">
+        <h3>Total Milk (L)</h3>
+        <p>{{ total_litres }}</p>
+      </div>
+      <div class="card">
+        <h3>Total Earnings (RWF)</h3>
+        <p id="earnings">{{ earnings }}</p>
+        <small id="usd-value"></small>
+      </div>
+      <div class="card">
+        <h3>Days Until Next Payment</h3>
+        <p>{{ days_remaining if days_remaining else "N/A" }}</p>
+      </div>
+      <div class="card">
+        <h3>Plan</h3>
+        <p>{{ user['plan'].capitalize() }}</p>
+      </div>
+    </div>
+
+    <!-- Add Milk Form -->
+    <div class="form-section">
+      <h2>Add Milk Record</h2>
+      <form action="/add" method="POST">
+        <label>Litres:</label>
+        <input type="number" name="litres" step="0.1" required>
+        <label>Date:</label>
+        <input type="date" name="date" required>
+        <button type="submit">Add Record</button>
+      </form>
+    </div>
+
+    <!-- History -->
+    <div class="history-section">
+      <h2>Past Records</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Litres</th>
+            <th>Earnings (RWF)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in user['milk_records'] %}
+          <tr>
+            <td>{{ record['date'] }}</td>
+            <td>{{ record['litres'] }}</td>
+            <td>{{ record['litres'] * 600 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</body>
+</html>
