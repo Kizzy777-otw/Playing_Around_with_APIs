@@ -1,3 +1,6 @@
+# AgriTrack Flask Application
+# Handles user authentication, dashboard, milk record management, and API endpoints
+
 from flask import Flask, render_template, request, redirect, session, jsonify
 import json
 import os
@@ -10,20 +13,23 @@ app.secret_key = "supersecretkey"
 DATA_FILE = "data/users.json"
 
 # ----------------------
-# Helpers
+# Helpers: Data loading, saving, and calculations
 # ----------------------
 
 def load_data():
+    # Load user data from JSON file
     if not os.path.exists(DATA_FILE):
         return {"users": []}
     with open(DATA_FILE, "r") as f:
         return json.load(f)
 
 def save_data(data):
+    # Save user data to JSON file
     with open(DATA_FILE, "w") as f:
         json.dump(data, f, indent=4)
 
 def find_user(username):
+    # Find a user by username
     data = load_data()
     for user in data["users"]:
         if user["username"] == username:
@@ -31,37 +37,35 @@ def find_user(username):
     return None
 
 def calculate_earnings(user):
+    # Calculate earnings for a user
     total_litres = sum([r["litres"] for r in user.get("milk_records", [])])
     gross = total_litres * 600
-
     fee = 2400 if user.get("plan") == "weekly" else 2000
     return gross - fee
 
 def next_payment_date(user):
+    # Calculate next payment date for a user
     if not user.get("milk_records"):
         return None
-
     last_date = datetime.strptime(user["milk_records"][-1]["date"], "%Y-%m-%d")
-
     if user.get("plan") == "weekly":
         return last_date + timedelta(days=7)
     else:
         return last_date + timedelta(days=14)
 
-
 def payment_status_for_record(record):
+    # Determine payment status for a milk record
     try:
         record_date = datetime.strptime(record.get("date", ""), "%Y-%m-%d").date()
     except ValueError:
         return "unknown"
-
     today = datetime.now().date()
     if record_date <= today:
         return "received"
     return "pending"
 
-
 def ensure_manager_exists():
+    # Ensure a manager user exists in the data
     data = load_data()
     manager = next((u for u in data["users"] if u.get("role") == "manager"), None)
     if not manager:
@@ -74,17 +78,18 @@ def ensure_manager_exists():
         })
         save_data(data)
 
-
 def get_user_by_username(username):
+    # Get a user by username
     data = load_data()
     return next((u for u in data["users"] if u.get("username") == username), None)
 
 # ----------------------
-# Routes
+# Routes: Flask endpoints for app functionality
 # ----------------------
 
 @app.route("/")
 def home():
+    # Redirect to dashboard or login
     if "user" in session:
         return redirect("/dashboard")
     return redirect("/login")
