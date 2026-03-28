@@ -1,5 +1,4 @@
-# AgriTrack Flask Application
-# Handles user authentication, dashboard, milk record management, and API endpoints
+# agritrak Flask app that handles user authentication,dashboard and milk recording management
 
 from flask import Flask, render_template, request, redirect, session, jsonify
 import json
@@ -12,24 +11,23 @@ app.secret_key = "supersecretkey"
 
 DATA_FILE = "data/users.json"
 
-# ----------------------
-# Helpers: Data loading, saving, and calculations
-# ----------------------
+
+# for saving data, loading and calculations
 
 def load_data():
-    # Load user data from JSON file
+    # Loading user's data from json
     if not os.path.exists(DATA_FILE):
         return {"users": []}
     with open(DATA_FILE, "r") as f:
         return json.load(f)
 
 def save_data(data):
-    # Save user data to JSON file
+    # saving user's data to json file
     with open(DATA_FILE, "w") as f:
         json.dump(data, f, indent=4)
 
 def find_user(username):
-    # Find a user by username
+    # finding user using usrname
     data = load_data()
     for user in data["users"]:
         if user["username"] == username:
@@ -37,14 +35,14 @@ def find_user(username):
     return None
 
 def calculate_earnings(user):
-    # Calculate earnings for a user
+    # calculating the user's earnings
     total_litres = sum([r["litres"] for r in user.get("milk_records", [])])
     gross = total_litres * 600
     fee = 2400 if user.get("plan") == "weekly" else 2000
     return gross - fee
 
 def next_payment_date(user):
-    # Calculate next payment date for a user
+    # calculating the user's next payment date
     if not user.get("milk_records"):
         return None
     last_date = datetime.strptime(user["milk_records"][-1]["date"], "%Y-%m-%d")
@@ -54,7 +52,7 @@ def next_payment_date(user):
         return last_date + timedelta(days=14)
 
 def payment_status_for_record(record):
-    # Determine payment status for a milk record
+    # etermine payment status for a milk record
     try:
         record_date = datetime.strptime(record.get("date", ""), "%Y-%m-%d").date()
     except ValueError:
@@ -65,7 +63,7 @@ def payment_status_for_record(record):
     return "pending"
 
 def ensure_manager_exists():
-    # Ensure a manager user exists in the data
+    #ensure Manager exists
     data = load_data()
     manager = next((u for u in data["users"] if u.get("role") == "manager"), None)
     if not manager:
@@ -79,24 +77,20 @@ def ensure_manager_exists():
         save_data(data)
 
 def get_user_by_username(username):
-    # Get a user by username
+    # get username for user
     data = load_data()
     return next((u for u in data["users"] if u.get("username") == username), None)
 
-# ----------------------
-# Routes: Flask endpoints for app functionality
-# ----------------------
+# flask endpoints
 
 @app.route("/")
 def home():
-    # Redirect to dashboard or login
+    # user redirect to login or dashboard
     if "user" in session:
         return redirect("/dashboard")
     return redirect("/login")
 
-# ----------------------
-# AUTH
-# ----------------------
+#authorization and authentication 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -133,7 +127,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
 
-        # Manager fixed credentials
+        #fixed credentials for manager
         if username == "Manager" and password == "12345":
             session["user"] = "Manager"
             session["role"] = "manager"
@@ -155,9 +149,7 @@ def logout():
     session.pop("user", None)
     return redirect("/login")
 
-# ----------------------
-# DASHBOARD
-# ----------------------
+#the dashboard
 
 @app.route("/dashboard")
 @app.route("/dashboard/<username>")
@@ -196,7 +188,7 @@ def dashboard(username=None):
 
         return render_template("dashboard.html", manager=True, users=users, next_due_user=next_due_user)
 
-    # Farmer view or manager viewing specific user
+    # view of farmer, or even manager viewing farmer
     total_litres = sum([r["litres"] for r in target_user.get("milk_records", [])])
     earnings = calculate_earnings(target_user)
 
@@ -220,9 +212,7 @@ def dashboard(username=None):
         next_payment_date=next_payment_date_str
     )
 
-# ----------------------
-# ADD MILK RECORD
-# ----------------------
+#record of adding milk
 
 @app.route("/add", methods=["POST"])
 def add_record():
@@ -248,9 +238,7 @@ def add_record():
     save_data(data)
     return redirect("/dashboard")
 
-# ----------------------
-# RECORD DETAIL
-# ----------------------
+#detail of records
 
 @app.route("/record/<int:record_index>")
 @app.route("/record/<username>/<int:record_index>")
@@ -261,7 +249,7 @@ def view_record(record_index, username=None):
     role = session.get("role", "farmer")
     current_user = session["user"]
     
-    # If viewing someone else's record (different from current user), must be manager
+    # must only be manager for viewing someone else's record
     if username and username != current_user and role != "manager":
         return "Access denied", 403
 
@@ -299,12 +287,13 @@ def view_record(record_index, username=None):
         days_remaining=days_remaining
     )
 
-# ----------------------
-# API: Currency Conversion
-# ----------------------
+
+# the API currency conversion part
+
 
 @app.route("/convert")
 def convert():
+    # endpoint for currency conversion RWF to USD
     try:
         url = "https://open.er-api.com/v6/latest/RWF"
         response = requests.get(url).json()
@@ -320,10 +309,12 @@ def convert():
             "rwf": earnings,
             "usd": round(usd_value, 2)
         })
-    except:
-        return jsonify({"error": "API unavailable"})
+    except Exception as e:
+        # handling error in case of API failure
+        return jsonify({"error": "API unavailable", "details": str(e)})
 
-# ----------------------
+
 
 if __name__ == "__main__":
+    # running the flask app in debug mode 
     app.run(host="0.0.0.0", port=5000, debug=True)
