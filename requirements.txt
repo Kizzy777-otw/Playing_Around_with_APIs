@@ -1,2 +1,3 @@
+# Python dependencies for AgriTrack Flask app
 flask
 requests
