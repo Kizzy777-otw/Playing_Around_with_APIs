@@ -34,4 +34,4 @@ sudo ln -s /etc/nginx/sites-available/agritrack /etc/nginx/sites-enabled/agritra
 sudo nginx -t
 sudo systemctl restart nginx
 
-echo "AgriTrack setup complete on $(hostname)"
+echo "AgriTrak setup complete on $(hostname)"
