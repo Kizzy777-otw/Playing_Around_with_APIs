@@ -192,6 +192,9 @@ def dashboard(username=None):
     total_litres = sum([r["litres"] for r in target_user.get("milk_records", [])])
     earnings = calculate_earnings(target_user)
 
+        import socket
+        server_id = socket.gethostname()
+
     next_pay = next_payment_date(target_user)
     next_payment_date_str = next_pay.strftime("%Y-%m-%d") if next_pay else None
 
@@ -210,6 +213,7 @@ def dashboard(username=None):
         earnings=earnings,
         days_remaining=days_remaining,
         next_payment_date=next_payment_date_str
+            server_id=server_id
     )
 
 #record of adding milk
