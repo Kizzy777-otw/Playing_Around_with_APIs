@@ -172,6 +172,9 @@ def dashboard(username=None):
         if not target_user:
             return redirect("/logout")
 
+    import socket
+    server_id = socket.gethostname()
+
     if role == "manager" and not username:
         users = load_data()["users"]
         for u in users:
@@ -186,15 +189,11 @@ def dashboard(username=None):
         due_users = [u for u in users if u["days_remaining"] is not None]
         next_due_user = min(due_users, key=lambda u: u["days_remaining"]) if due_users else None
 
-        return render_template("dashboard.html", manager=True, users=users, next_due_user=next_due_user)
+        return render_template("dashboard.html", manager=True, users=users, next_due_user=next_due_user, server_id=server_id)
 
     # view of farmer, or even manager viewing farmer
     total_litres = sum([r["litres"] for r in target_user.get("milk_records", [])])
     earnings = calculate_earnings(target_user)
-
-        import socket
-        server_id = socket.gethostname()
-
     next_pay = next_payment_date(target_user)
     next_payment_date_str = next_pay.strftime("%Y-%m-%d") if next_pay else None
 
@@ -212,8 +211,8 @@ def dashboard(username=None):
         total_litres=total_litres,
         earnings=earnings,
         days_remaining=days_remaining,
-        next_payment_date=next_payment_date_str
-            server_id=server_id
+        next_payment_date=next_payment_date_str,
+        server_id=server_id
     )
 
 #record of adding milk
