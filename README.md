@@ -1,7 +1,10 @@
 # AgriTrak Deployment & Architecture
+# Special linksss
+Here is the link to the demo video: (https://youtu.be/rKs3AH7rfKg)
+This is the link to the website using lb-01 :(http://98.93.185.230/login)
 
 ## Overview
-AgriTrak is i s a web app which is flex-based, it's role is managing milk records for farmers and tracking their payments. The API used is [Open Exchange Rates API](https://www.exchangerate-api.com/) for converting currency. There were two webservers and a load balancer used in this project demonstrating a production deployment.
+AgriTrak is i s a web app which is flex-based,  which helps user track their milk production and payments to a subscribed cooperative. The API used is [Open Exchange Rates API](https://www.exchangerate-api.com/) for converting currency. There were two webservers and a load balancer used in this project demonstrating a production deployment.
 
 ## Value Proposition
 The Agritrak web app helps track milk production, amount earned and payment schedules woth real-time currency conversion to insure transparency in finances
