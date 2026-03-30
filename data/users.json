@@ -28,23 +28,19 @@
         },
         {
             "username": "Imena Farm",
-            "password": "1234",
+            "password": "123",
             "plan": "weekly",
             "role": "farmer",
             "milk_records": [
                 {
                     "litres": 50.0,
                     "date": "2026-03-28"
-                },
-                {
-                    "litres": 8.0,
-                    "date": "2026-03-20"
                 }
             ]
         },
         {
             "username": "Jean Mwiseneza",
-            "password": "pass123",
+            "password": "123",
             "plan": "weekly",
             "role": "farmer",
             "milk_records": [
@@ -64,7 +60,7 @@
         },
         {
             "username": "Marie Ingabire",
-            "password": "pass123",
+            "password": "123",
             "plan": "biweekly",
             "role": "farmer",
             "milk_records": [
@@ -80,7 +76,7 @@
         },
         {
             "username": "Pierre Nkomo",
-            "password": "pass123",
+            "password": "123",
             "plan": "weekly",
             "role": "farmer",
             "milk_records": [
@@ -100,7 +96,7 @@
         },
         {
             "username": "Chantal Kwizera",
-            "password": "pass123",
+            "password": "123",
             "plan": "biweekly",
             "role": "farmer",
             "milk_records": [
@@ -115,8 +111,8 @@
             ]
         },
         {
-            "username": "Ahmed Hassan",
-            "password": "pass123",
+            "username": "Ahmed Hussein Akrab",
+            "password": "123",
             "plan": "weekly",
             "role": "farmer",
             "milk_records": [
@@ -135,8 +131,8 @@
             ]
         },
         {
-            "username": "Grace Mwangi",
-            "password": "pass123",
+            "username": "",
+            "password": "123",
             "plan": "weekly",
             "role": "farmer",
             "milk_records": [
@@ -153,6 +149,38 @@
                     "date": "2026-03-25"
                 }
             ]
-        }
+        },
+         {
+            "username": "Farmer ALU",
+            "password": "123",
+            "plan": "biweekly",
+            "role": "farmer",
+            "milk_records": [
+                {
+                    "litres": 50.0,
+                    "date": "2026-03-27"
+                }
+            ]
+        },
+        {
+            "username": "ALU Test",
+            "password": "123",
+            "plan": "weekly",
+            "role": "farmer",
+            "milk_records": [                                                                      
+                {                                                                                  
+                    "litres": 50.0,                                                                
+                    "date": "2026-03-21"                                                           
+                },                                                                                 
+                {                                                                                  
+                    "litres": 50.0,                                                                
+                    "date": "2026-03-21"                                                           
+                },                                                                                 
+                {                                                                                  
+                    "litres": 10.0,                                                                
+                    "date": "2026-03-24"                                                           
+                }                                                                                  
+            ]                                                                                      
+        } 
     ]
 }
